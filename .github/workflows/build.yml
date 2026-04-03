@@ -1,0 +1,99 @@
+# urordo Windows Build — GitHub Actions
+#
+# Triggered manually (workflow_dispatch) — not on every push.
+# To trigger: GitHub → Actions → "Build urordo" → Run workflow
+#
+# When ready for automated releases, change "on" to:
+#   on:
+#     push:
+#       tags:
+#         - 'v*'
+
+name: Build urordo
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (must match tauri.conf.json, e.g. 0.1.0)'
+        required: false
+        default: ''
+
+jobs:
+  build-windows:
+    name: Build Windows installers
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Rust stable (x86_64-pc-windows-msvc)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      # Cache Rust dependencies — saves ~3-4 min on subsequent runs
+      - name: Cache Rust build artifacts
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Tauri application
+        run: npx tauri build
+        env:
+          # Uncomment and set these secrets when code signing is ready:
+          # TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          # TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          #
+          # Uncomment for code signing certificate (EV cert thumbprint):
+          # TAURI_WINDOWS_CERTIFICATE_THUMBPRINT: ${{ secrets.TAURI_WINDOWS_CERTIFICATE_THUMBPRINT }}
+
+      - name: Read version from tauri.conf.json
+        id: version
+        shell: pwsh
+        run: |
+          $config = Get-Content "src-tauri/tauri.conf.json" | ConvertFrom-Json
+          $v = if ("${{ inputs.version }}") { "${{ inputs.version }}" } else { $config.version }
+          echo "version=$v" >> $env:GITHUB_OUTPUT
+
+      - name: Verify MSI artifact exists and is under 10MB
+        shell: pwsh
+        run: |
+          $msi = "src-tauri/target/release/bundle/msi/urordo_${{ steps.version.outputs.version }}_x64_en-US.msi"
+          if (-not (Test-Path $msi)) { Write-Error "MSI not found: $msi"; exit 1 }
+          $size = [math]::Round((Get-Item $msi).Length / 1MB, 2)
+          Write-Host "MSI size: $size MB"
+          if ($size -gt 10) { Write-Warning "MSI exceeds 10MB target ($size MB)" }
+
+      - name: Verify NSIS artifact exists and is under 8MB
+        shell: pwsh
+        run: |
+          $exe = "src-tauri/target/release/bundle/nsis/urordo_${{ steps.version.outputs.version }}_x64-setup.exe"
+          if (-not (Test-Path $exe)) { Write-Error "NSIS EXE not found: $exe"; exit 1 }
+          $size = [math]::Round((Get-Item $exe).Length / 1MB, 2)
+          Write-Host "NSIS size: $size MB"
+          if ($size -gt 8) { Write-Warning "NSIS EXE exceeds 8MB target ($size MB)" }
+
+      - name: Upload MSI installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: urordo-msi-${{ steps.version.outputs.version }}
+          path: src-tauri/target/release/bundle/msi/*.msi
+          retention-days: 30
+
+      - name: Upload NSIS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: urordo-nsis-${{ steps.version.outputs.version }}
+          path: src-tauri/target/release/bundle/nsis/*-setup.exe
+          retention-days: 30

@@ -1,0 +1,63 @@
+[package]
+name = "urordo"
+version = "0.0.1"
+description = "Intelligent local-first file organiser"
+authors = ["urordo"]
+edition = "2021"
+# default-run tells cargo tauri build which binary is the app entry point.
+# Required because [[bin]] for "keygen" would otherwise cause ambiguity.
+default-run = "urordo"
+
+[lib]
+name = "urordo_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-process = "2"
+# Updater plugin — wired but inactive until update server is ready.
+# To activate: uncomment, set updater config in tauri.conf.json, add pubkey + endpoints.
+tauri-plugin-updater = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full", "rt-multi-thread"] }
+rusqlite = { version = "0.31", features = ["bundled"] }
+r2d2 = "0.8"
+r2d2_sqlite = "0.24"
+jwalk = "0.8"
+rayon = "1.8"
+uuid = { version = "1.8", features = ["v4"] }
+reqwest = { version = "0.13", features = ["json"] }
+machine-uid = "0.5"
+sha2 = "0.10"
+hex = "0.4"
+base64 = "0.22"
+ed25519-dalek = { version = "2.2.0", features = ["rand_core"] }
+chrono = { version = "0.4", features = ["serde"] }
+keyring = "3.6.3"
+dashmap = "6"
+rand_core = { version = "0.6", features = ["getrandom"] }
+# dirs: cross-platform standard paths (Downloads, Desktop, Documents).
+# Used by the onboarding quick-start folder shortcuts.
+dirs = "5"
+notify = "6"
+notify-debouncer-mini = "0.4"
+tauri-plugin-notification = "2"
+tauri-plugin-single-instance = "2"
+log = "0.4"
+env_logger = "0.11"
+
+[[bin]]
+name = "keygen"
+path = "src/bin/keygen.rs"
+
+[profile.release]
+opt-level = 3           # Maximum optimization (speed + size balance)
+lto = true              # Link Time Optimization — significantly reduces binary size
+codegen-units = 1       # Single codegen unit — better optimization, slower compile
+panic = "abort"         # Abort on panic — removes unwinding code (~50KB savings)
+strip = true            # Strip debug symbols — significant binary size reduction

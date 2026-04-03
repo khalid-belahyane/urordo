@@ -1,0 +1,220 @@
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/dm-mono/400.css';
+@import '@fontsource/dm-mono/500.css';
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   URORDO DESIGN SYSTEM — CENTRALIZED THEME TOKENS
+   All colors, shadows, and radii are CSS custom properties so both light
+   and dark modes are single-source-of-truth. Tailwind classes consume these
+   via the 'var()' references in tailwind.config.js.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Light Mode (default) ─────────────────────────────────────────────────── */
+:root {
+  /* Paper (background) tier */
+  --color-paper:      #f8f5ef;
+  --color-paper-2:    #f2ede4;
+  --color-paper-3:    #ece5d8;
+  --color-paper-4:    #e4dccb;
+
+  /* Ink (text) tier */
+  --color-ink:        #1a170f;
+  --color-ink-2:      #3d3828;
+  --color-ink-muted:  #8c8474;
+  --color-ink-faint:  #c8bfad;
+
+  /* Semantic border / divider */
+  --color-rule:       #ddd5c4;
+
+  /* Brand accent — warm gold */
+  --color-gold:       #8b6914;
+  --color-gold-dark:  #5c4510;
+  --color-gold-light: #ddd5c4;
+
+  /* State colors */
+  --color-green:      #2e5e18;
+  --color-green-dark: #1e3f0e;
+  --color-red:        #8b2020;
+  --color-brand:      #8b6914;
+
+  /* Shadows — warm-tinted */
+  --shadow-sm:  0 1px 3px rgba(26,23,20,0.06), 0 1px 2px rgba(26,23,20,0.04);
+  --shadow-md:  0 4px 12px rgba(26,23,20,0.08), 0 2px 4px rgba(26,23,20,0.04);
+  --shadow-lg:  0 8px 32px rgba(26,23,20,0.10), 0 4px 8px rgba(26,23,20,0.05);
+  --shadow-accent: 0 4px 20px rgba(139,105,20,0.25);
+  --shadow-inset:  inset 0 2px 4px rgba(26,23,20,0.04);
+  --shadow-inset-sm: inset 0 1px 2px rgba(26,23,20,0.03);
+
+  /* Scrollbar */
+  --scrollbar-thumb: #CFC0AE;
+  --scrollbar-hover: #C4933F;
+  --focus-ring:      #C4933F;
+}
+
+/* ── Dark Mode ────────────────────────────────────────────────────────────── */
+/* Activated via the system preference OR the [data-theme="dark"] attribute  */
+/* applied to <html> by ThemeManager. The premium feel is preserved with a   */
+/* warm near-black base inspired by the same paper/ink palette, darker.       */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Paper tier — warm dark */
+    --color-paper:      #1a1710;
+    --color-paper-2:    #211e14;
+    --color-paper-3:    #28241a;
+    --color-paper-4:    #302c20;
+
+    /* Ink tier — warm light */
+    --color-ink:        #f0ead8;
+    --color-ink-2:      #c8bfad;
+    --color-ink-muted:  #8c8474;
+    --color-ink-faint:  #4a4535;
+
+    /* Border / rule — subtle warm dark */
+    --color-rule:       #332f22;
+
+    /* Brand accent — same gold, slightly brighter */
+    --color-gold:       #c4933f;
+    --color-gold-dark:  #8b6914;
+    --color-gold-light: #3a3020;
+
+    /* State colors — same hue, adjusted lightness */
+    --color-green:      #4a9428;
+    --color-green-dark: #2e5e18;
+    --color-red:        #c44040;
+    --color-brand:      #c4933f;
+
+    /* Shadows — darker, more depth */
+    --shadow-sm:  0 1px 3px rgba(0,0,0,0.20), 0 1px 2px rgba(0,0,0,0.14);
+    --shadow-md:  0 4px 12px rgba(0,0,0,0.28), 0 2px 4px rgba(0,0,0,0.16);
+    --shadow-lg:  0 8px 32px rgba(0,0,0,0.36), 0 4px 8px rgba(0,0,0,0.18);
+    --shadow-accent: 0 4px 20px rgba(196,147,63,0.30);
+    --shadow-inset:  inset 0 2px 4px rgba(0,0,0,0.20);
+    --shadow-inset-sm: inset 0 1px 2px rgba(0,0,0,0.14);
+
+    /* Scrollbar */
+    --scrollbar-thumb: #4a4535;
+    --scrollbar-hover: #c4933f;
+    --focus-ring:      #c4933f;
+  }
+}
+
+/* Explicit dark mode override (user preference stored in settings) */
+[data-theme="dark"] {
+  --color-paper:      #1a1710;
+  --color-paper-2:    #211e14;
+  --color-paper-3:    #28241a;
+  --color-paper-4:    #302c20;
+  --color-ink:        #f0ead8;
+  --color-ink-2:      #c8bfad;
+  --color-ink-muted:  #8c8474;
+  --color-ink-faint:  #4a4535;
+  --color-rule:       #332f22;
+  --color-gold:       #c4933f;
+  --color-gold-dark:  #8b6914;
+  --color-gold-light: #3a3020;
+  --color-green:      #4a9428;
+  --color-green-dark: #2e5e18;
+  --color-red:        #c44040;
+  --color-brand:      #c4933f;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.20), 0 1px 2px rgba(0,0,0,0.14);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.28), 0 2px 4px rgba(0,0,0,0.16);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.36), 0 4px 8px rgba(0,0,0,0.18);
+  --shadow-accent: 0 4px 20px rgba(196,147,63,0.30);
+  --shadow-inset:  inset 0 2px 4px rgba(0,0,0,0.20);
+  --shadow-inset-sm: inset 0 1px 2px rgba(0,0,0,0.14);
+  --scrollbar-thumb: #4a4535;
+  --scrollbar-hover: #c4933f;
+  --focus-ring:      #c4933f;
+}
+
+/* Explicit light mode override */
+[data-theme="light"] {
+  --color-paper:      #f8f5ef;
+  --color-paper-2:    #f2ede4;
+  --color-paper-3:    #ece5d8;
+  --color-paper-4:    #e4dccb;
+  --color-ink:        #1a170f;
+  --color-ink-2:      #3d3828;
+  --color-ink-muted:  #8c8474;
+  --color-ink-faint:  #c8bfad;
+  --color-rule:       #ddd5c4;
+  --color-gold:       #8b6914;
+  --color-gold-dark:  #5c4510;
+  --color-gold-light: #ddd5c4;
+  --color-green:      #2e5e18;
+  --color-green-dark: #1e3f0e;
+  --color-red:        #8b2020;
+  --color-brand:      #8b6914;
+  --shadow-sm:  0 1px 3px rgba(26,23,20,0.06), 0 1px 2px rgba(26,23,20,0.04);
+  --shadow-md:  0 4px 12px rgba(26,23,20,0.08), 0 2px 4px rgba(26,23,20,0.04);
+  --shadow-lg:  0 8px 32px rgba(26,23,20,0.10), 0 4px 8px rgba(26,23,20,0.05);
+  --shadow-accent: 0 4px 20px rgba(139,105,20,0.25);
+  --shadow-inset:  inset 0 2px 4px rgba(26,23,20,0.04);
+  --shadow-inset-sm: inset 0 1px 2px rgba(26,23,20,0.03);
+  --scrollbar-thumb: #CFC0AE;
+  --scrollbar-hover: #C4933F;
+  --focus-ring:      #C4933F;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TAILWIND BASE LAYER
+   ═══════════════════════════════════════════════════════════════════════════ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper text-ink font-body antialiased overflow-hidden;
+  }
+  ::selection {
+    background-color: rgba(139, 105, 20, 0.25);
+    color: var(--color-ink);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-ink;
+  }
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+
+/* ── Focus ring ────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── Grain texture utility ──────────────────────────────────────────────────── */
+/* Used by Welcome and SplashScreen via className="grain-overlay" */
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='.028'/%3E%3C/svg%3E");
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+}
+
+/* ── Ruled paper background utility ────────────────────────────────────────── */
+.ruled-bg {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0, transparent 47px,
+    var(--color-rule) 47px, var(--color-rule) 48px
+  );
+  opacity: 0.55;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}

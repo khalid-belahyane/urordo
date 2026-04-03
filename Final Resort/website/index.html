@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>urordo | Local-first file organising for Windows</title>
+    <meta
+      name="description"
+      content="urordo is a local-first Windows app that organises files by meaning, keeps review in the loop, and lets users roll changes back."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar">
+          <div class="brand-lockup">
+            <div class="brand-mark" aria-hidden="true"></div>
+            <span class="brand-wordmark">urordo</span>
+          </div>
+          <a class="ghost-link" href="#download">Download</a>
+        </nav>
+
+        <div class="hero-grid">
+          <section class="hero-copy">
+            <p class="eyebrow">Windows desktop app</p>
+            <h1>Organise files locally, review every move, and keep rollback one click away.</h1>
+            <p class="hero-text">
+              urordo is built for people who want a calmer file system without handing their folders to a remote service.
+              It scans locally, groups by meaning, lets users approve the plan, and keeps a full activity trail.
+            </p>
+
+            <div class="cta-row" id="download">
+              <a class="cta-primary is-disabled" id="download-nsis" href="#" aria-disabled="true">Download installer</a>
+              <a class="cta-secondary is-disabled" id="download-msi" href="#" aria-disabled="true">Download MSI</a>
+            </div>
+
+            <div class="download-meta">
+              <span id="release-version">Version not configured</span>
+              <a id="release-notes" class="ghost-link is-hidden" href="#" target="_blank" rel="noreferrer">Release notes</a>
+            </div>
+          </section>
+
+          <section class="hero-panel" aria-label="Product promise">
+            <div class="signal-card">
+              <span class="signal-label">Local-first</span>
+              <strong>No server dependency for core organising</strong>
+            </div>
+            <div class="signal-card">
+              <span class="signal-label">Review-first</span>
+              <strong>Moves stay visible before anything touches disk</strong>
+            </div>
+            <div class="signal-card">
+              <span class="signal-label">Reversible</span>
+              <strong>Every completed session is logged for rollback</strong>
+            </div>
+          </section>
+        </div>
+      </header>
+
+      <main class="content-grid">
+        <section class="story-card">
+          <p class="section-kicker">How it works</p>
+          <div class="story-steps">
+            <article>
+              <span>01</span>
+              <h2>Pick a folder</h2>
+              <p>Choose a messy folder or set one up as a watcher. urordo scans locally and classifies files by meaning.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h2>Review the plan</h2>
+              <p>Check every move, adjust categories, and keep ignore rules in one place before you apply anything.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h2>Apply and roll back if needed</h2>
+              <p>Moves are logged, history stays visible, and rollback is available from the Activity screen.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="feature-rail">
+          <article>
+            <p class="section-kicker">What users get</p>
+            <ul>
+              <li>Manual review for trust-sensitive organising</li>
+              <li>Recursive watchers for incoming folders</li>
+              <li>Optional Gemini help through a user-owned API key</li>
+              <li>Installer-based distribution with no localhost requirement</li>
+            </ul>
+          </article>
+
+          <article class="download-card">
+            <p class="section-kicker">Install flow</p>
+            <ol>
+              <li>Download the installer from this page</li>
+              <li>Run setup and open urordo</li>
+              <li>Complete onboarding and choose a source folder</li>
+              <li>Optionally add Gemini later from Settings</li>
+            </ol>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

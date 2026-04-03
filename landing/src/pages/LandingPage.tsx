@@ -424,7 +424,7 @@ export default function LandingPage() {
             </p>
             <div className="hero-actions">
               <a className="btn-main" href={DL_URL}>↓ Download free</a>
-              <a className="btn-sec"  href="https://github.com/urordo/urordo">GitHub →</a>
+              <a className="btn-sec"  href="https://github.com/khalid-belahyane/urordo">GitHub →</a>
             </div>
           </div>
         </div>
@@ -677,7 +677,7 @@ export default function LandingPage() {
             <div className="ft-tag">Everything in its place. Automatically.</div>
           </div>
           <ul className="ft-links">
-            <li><a href="https://github.com/urordo/urordo">GitHub</a></li>
+            <li><a href="https://github.com/khalid-belahyane/urordo">GitHub</a></li>
             <li><a href="#" onClick={openModal('privacy')}>Privacy</a></li>
             <li><a href="#" onClick={openModal('terms')}>Terms</a></li>
           </ul>
@@ -863,7 +863,7 @@ function PrivacyContent() {
         <h3 className="modal-sh">Contact</h3>
         <p className="modal-p">
           Privacy questions can be raised via the{' '}
-          <a className="modal-link" href="https://github.com/urordo/urordo">GitHub repository</a>.
+          <a className="modal-link" href="https://github.com/khalid-belahyane/urordo">GitHub repository</a>.
         </p>
       </div>
     </>

@@ -785,7 +785,7 @@ function TermsContent() {
         <h3 className="modal-sh">7. Contact</h3>
         <p className="modal-p">
           Questions about these terms can be directed via the{' '}
-          <a className="modal-link" href="https://github.com/urordo/urordo">GitHub repository</a>.
+          <a className="modal-link" href="https://github.com/khalid-belahyane/urordo">GitHub repository</a>.
         </p>
       </div>
     </>

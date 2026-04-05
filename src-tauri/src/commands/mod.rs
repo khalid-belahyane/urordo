@@ -206,6 +206,45 @@ pub fn move_path(src: &Path, dst: &Path) -> Result<(), String> {
     }
 }
 
+/// Recursively removes empty parent directories starting from `path` and walking upwards.
+///
+/// Stops when:
+/// 1. A directory is not empty.
+/// 2. The path is a drive root (e.g. C:\) or a critical system path (e.g. C:\Windows).
+/// 3. A directory cannot be removed due to permissions.
+pub fn prune_empty_parents(mut path: PathBuf) {
+    while path.is_dir() {
+        // Read directory. If empty, remove it and continue to parent.
+        match fs::read_dir(&path) {
+            Ok(mut entries) => {
+                if entries.next().is_none() {
+                    // It's empty.
+                    // SAFETY: Never prune drive roots or critical system paths.
+                    if crate::rules::system::is_drive_root(&path)
+                        || crate::rules::system::is_critical_system_path(&path)
+                    {
+                        break;
+                    }
+
+                    if fs::remove_dir(&path).is_err() {
+                        // Likely permissions or someone else just added a file. Stop pruning.
+                        break;
+                    }
+
+                    path = match path.parent() {
+                        Some(p) => p.to_path_buf(),
+                        None => break,
+                    };
+                } else {
+                    // Not empty. Stop.
+                    break;
+                }
+            }
+            Err(_) => break,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -338,5 +377,31 @@ mod tests {
             "Expected protection message, got: {}",
             err
         );
+    }
+
+    #[test]
+    fn test_prune_empty_parents() {
+        let root = unique_temp_path("prune-test");
+        let a = root.join("a");
+        let b = a.join("b");
+        let c = b.join("c");
+        fs::create_dir_all(&c).unwrap();
+
+        let keep_file = root.join("keep_me.txt");
+        fs::write(&keep_file, "data").unwrap();
+
+        assert!(c.exists());
+        prune_empty_parents(c.clone());
+
+        // c, b, and a should be gone because they are empty
+        assert!(!c.exists());
+        assert!(!b.exists());
+        assert!(!a.exists());
+
+        // root should still exist because it has keep_me.txt
+        assert!(root.exists());
+        assert!(keep_file.exists());
+
+        let _ = fs::remove_dir_all(&root);
     }
 }

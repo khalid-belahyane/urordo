@@ -144,6 +144,10 @@ pub async fn rollback_moves_cmd(
 
                 if moved {
                     reverted_count += 1;
+                    // Prune empty parent directories (the 'bucket' folders created by the app)
+                    if let Some(parent) = dest_path.parent() {
+                        crate::commands::prune_empty_parents(parent.to_path_buf());
+                    }
                     (true, "rolled_back")
                 } else {
                     missing_count += 1;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Check, Play, Settings2, CheckCircle2, AlertCircle, History, Folder, ChevronDown, Search, X, Package, FolderX, Image as ImageIcon, Video, FileText, Files } from 'lucide-react';
+import { ArrowLeft, Check, Play, Settings2, CheckCircle2, AlertCircle, History, Folder, ChevronDown, Search, X, Package, FolderX, Image as ImageIcon, Video, FileText, Files, Heart } from 'lucide-react';
+import { open as openUrl } from '@tauri-apps/plugin-shell';
 import { tauriApi } from '../lib/tauri';
 import { useConfirm } from '../components/ConfirmContext';
 import { useSettings } from '../lib/SettingsContext';
@@ -43,6 +44,62 @@ const SummaryDashboard = ({ files }) => {
       {stats.media > 0 && <Card label="Media" count={stats.media} icon={ImageIcon} color="bg-purple-50 text-purple-500" />}
       {stats.docs > 0 && <Card label="Documents" count={stats.docs} icon={FileText} color="bg-amber-50 text-amber-500" />}
       {stats.other > 0 && <Card label="Other Loose" count={stats.other} icon={Files} color="bg-ink-50 text-ink-light" />}
+    </div>
+  );
+};
+
+const SupportButton = () => {
+  const [popping, setPopping] = useState(false);
+
+  const handleClick = async () => {
+    if (popping) return;
+    setPopping(true);
+    setTimeout(() => {
+      setPopping(false);
+      openUrl('https://ko-fi.com/urordo');
+    }, 800);
+  };
+
+  return (
+    <div className="relative inline-block mt-3">
+      <AnimatePresence>
+        {popping && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute -top-12 left-1/2 -translate-x-1/2 pointer-events-none flex justify-center w-full z-50 gap-2"
+          >
+            {[...Array(5)].map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ y: 10, x: 0, scale: 0, opacity: 0 }}
+                animate={{
+                  y: -50 - Math.random() * 30,
+                  x: (Math.random() - 0.5) * 50,
+                  scale: [0, 1.3, 0.8, 0],
+                  opacity: [0, 1, 1, 0]
+                }}
+                transition={{ duration: 0.6 + Math.random() * 0.4, ease: 'easeOut' }}
+              >
+                <Heart size={Math.random() > 0.5 ? 14 : 10} className="text-accent fill-accent" />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={handleClick}
+        className="relative overflow-hidden px-5 py-2 bg-paper-2 text-ink border border-rule rounded-xl font-medium flex items-center justify-center gap-2 shadow-sm group transition-all hover:bg-paper-3 hover:border-accent hover:shadow-warm-sm text-sm mx-auto"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-paper-2/0 via-paper-4/30 to-paper-2/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <span className="relative z-10 flex items-center gap-2">
+          <Heart size={15} className="text-accent group-hover:fill-accent/20 transition-colors" /> Support urordo
+        </span>
+      </motion.button>
     </div>
   );
 };
@@ -255,6 +312,18 @@ export function Review({ classifications, originalPath, rootPath = '', pendingPa
               className="px-6 py-3 bg-ink-dark text-paper-25 rounded-xl font-medium hover:bg-ink transition-colors flex items-center gap-2 shadow-warm-md text-sm">
               <History size={15} /> View Activity
             </motion.button>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-4 pt-6 border-t border-paper-200/60 min-w-[280px]"
+            >
+              <p className="text-xs text-ink-light mx-auto max-w-sm mb-1">
+                If urordo saved you time, you can help keep it independent.
+              </p>
+              <SupportButton />
+            </motion.div>
           </>
         )}
       </motion.div>

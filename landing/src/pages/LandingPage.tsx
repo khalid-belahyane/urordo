@@ -1,7 +1,13 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const VERSION = '0.0.1';
-const DL_URL  = '/urordo_setup_v0.0.1.exe';
+const VERSION    = '0.0.1';
+const DL_URL     = 'https://github.com/khalid-belahyane/urordo/releases/download/v0.0.1/urordo_0.0.1_x64-setup.exe';
+const TRACKER    = 'https://urordo-tracker.belahyanekhalid.workers.dev/track';
+const track = (variant: string) => {
+  try {
+    navigator.sendBeacon(TRACKER, JSON.stringify({ event: 'download_click', variant }));
+  } catch { /* silent */ }
+};
 
 /* ── File data ────────────────────────────────────────────── */
 const FILES = [
@@ -404,7 +410,7 @@ export default function LandingPage() {
           <li><a href="#how">How</a></li>
           <li><a href="#who">Who</a></li>
         </ul>
-        <a href={DL_URL} className="n-dl" download>↓ Download</a>
+        <a href={DL_URL} className="n-dl" download onClick={() => track('exe-nav')}>↓ Download</a>
       </nav>
 
       {/* ══ HERO ══ */}
@@ -423,7 +429,7 @@ export default function LandingPage() {
               Every move is shown before it happens. Nothing is ever permanent.
             </p>
             <div className="hero-actions">
-              <a className="btn-main" href={DL_URL}>↓ Download free</a>
+              <a className="btn-main" href={DL_URL} onClick={() => track('exe-hero')}>↓ Download free</a>
               <a className="btn-sec"  href="https://github.com/khalid-belahyane/urordo">GitHub →</a>
             </div>
           </div>
@@ -662,12 +668,35 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* SUPPORT URORDO */}
+        <section className="s-support" id="support">
+          <div className="support-kintsugi">
+            <div className="kin-glow kin-1" />
+            <div className="kin-glow kin-2" />
+            <div className="kin-glow kin-3" />
+          </div>
+          <div className="support-content">
+            <div className="support-eyebrow rv">Support urordo's local-first future</div>
+            <h2 className="support-h rv d1">Help keep urordo fast,<br />private, and <em>independent.</em></h2>
+            <p className="support-body rv d2">
+              urordo is built for people who want private, local-first software that simply works. If it made your folders feel calmer or saved you time, your support helps me keep building it.
+            </p>
+            <div className="support-actions rv d3">
+              <a className="btn-main kin-btn" href="https://ko-fi.com/urordo" target="_blank" rel="noreferrer">
+                Support urordo
+              </a>
+              <a className="btn-sec" href="#download">Keep using urordo</a>
+            </div>
+            <p className="support-trust rv d4">Optional, appreciated, never expected.</p>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="s-cta" id="download">
           <div className="cta-pre rv">ready?</div>
           <h2 className="cta-h rv d1">Your files,<br /><em>finally</em> tidy.</h2>
           <p className="cta-sub rv d2">Free download. No account. Works offline. Windows only for now.</p>
-          <a className="cta-btn rv d3" href={DL_URL}>↓ Download urordo v{VERSION}</a>
+          <a className="cta-btn rv d3" href={DL_URL} onClick={() => track('exe-cta')}>↓ Download urordo v{VERSION}</a>
           <p className="cta-meta rv d4">Windows · Free · Open source · No account required</p>
         </section>
 
@@ -675,6 +704,9 @@ export default function LandingPage() {
           <div>
             <div className="ft-l">ur<em>O</em>rdo</div>
             <div className="ft-tag">Everything in its place. Automatically.</div>
+            <div className="ft-copy" style={{ fontSize: '9px', color: 'var(--surface-dark-faint)', marginTop: '12px', letterSpacing: '.04em' }}>
+              &copy; {new Date().getFullYear()} Khalid Belahyane. All rights reserved.
+            </div>
           </div>
           <ul className="ft-links">
             <li><a href="https://github.com/khalid-belahyane/urordo">GitHub</a></li>

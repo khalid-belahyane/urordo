@@ -167,10 +167,21 @@ nav {
   font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--gold); text-decoration: none;
   border-bottom: 1px solid var(--gold);
-  padding-bottom: 1px; transition: color .2s, border-color .2s;
+  padding-bottom: 1px; 
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: none;
+  display: inline-block;
+  transform: translateY(0);
 }
-.n-dl:hover { color: var(--gold-d); border-color: var(--gold-d); }
+.n-dl:hover { 
+  color: var(--gold-d); 
+  border-color: var(--gold-d); 
+  transform: translateY(-1px);
+}
+.n-dl:active {
+  transform: translateY(1px);
+  transition: all 0.05s ease;
+}
 
 /* ══════════════════════════════════════════════════════════
    HERO
@@ -253,14 +264,36 @@ nav {
   color: var(--paper); background: var(--ink);
   padding: 13px 28px; text-decoration: none;
   display: inline-flex; align-items: center; gap: 10px;
-  transition: background .2s; cursor: none;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
+  cursor: none;
+  transform: translateY(0);
 }
-.btn-main:hover { background: var(--gold); }
+.btn-main:hover { 
+  background: var(--gold); 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 105, 20, 0.15);
+}
+.btn-main:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(139, 105, 20, 0.1);
+  transition: all 0.05s ease;
+}
 .btn-sec {
   font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); text-decoration: none; transition: color .2s; cursor: none;
+  color: var(--muted); text-decoration: none; 
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
+  cursor: none;
+  display: inline-block;
+  transform: translateY(0);
 }
-.btn-sec:hover { color: var(--ink); }
+.btn-sec:hover { 
+  color: var(--ink); 
+  transform: translateY(-1px);
+}
+.btn-sec:active {
+  transform: translateY(1px);
+  transition: all 0.05s ease;
+}
 
 .hero-scroll {
   position: absolute; bottom: 32px; left: 50%;
@@ -812,6 +845,69 @@ nav {
 .wc-ex-a { color: var(--gold); }
 
 /* ══════════════════════════════════════════════════════════
+   SUPPORT (Ko-fi)
+   ══════════════════════════════════════════════════════════ */
+.s-support {
+  padding: 140px 52px;
+  background: var(--surface-dark);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--surface-dark-rule);
+}
+.support-kintsugi {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.kin-glow {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+  opacity: 0.15;
+  filter: blur(40px);
+}
+.kin-1 { width: 600px; height: 600px; top: -200px; left: -100px; animation: drift 18s alternate infinite ease-in-out; }
+.kin-2 { width: 800px; height: 800px; bottom: -400px; right: -200px; animation: drift 24s alternate-reverse infinite ease-in-out; }
+.kin-3 { width: 400px; height: 400px; top: 30%; left: 50%; animation: drift 14s alternate infinite ease-in-out; opacity: 0.6; }
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 20px) scale(1.05); opacity: 0.8; }
+  100% { transform: translate(-20px, -30px) scale(0.95); opacity: 0.5; }
+}
+
+.support-content {
+  position: relative; z-index: 10; max-width: 580px; margin: 0 auto;
+}
+.support-eyebrow {
+  font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--surface-dark-muted); margin-bottom: 24px;
+}
+.support-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 6vw, 68px); font-weight: 300;
+  letter-spacing: -.03em; line-height: 1.05;
+  color: var(--surface-dark-text); margin-bottom: 28px;
+}
+.support-h em { font-style: italic; color: var(--gold); }
+.support-body {
+  font-size: 14px; color: var(--surface-dark-muted);
+  line-height: 1.8; letter-spacing: .01em;
+  margin-bottom: 48px;
+}
+.support-actions {
+  display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 24px;
+}
+.kin-btn {
+  background: var(--gold); color: white;
+  box-shadow: 0 4px 20px rgba(139, 105, 20, 0.2);
+}
+.kin-btn:hover {
+  background: #d4af37; box-shadow: 0 8px 30px rgba(139, 105, 20, 0.4); transform: translateY(-1px);
+}
+.support-trust {
+  font-size: 10px; color: var(--surface-dark-faint); letter-spacing: .05em; font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════
    CTA  (always-dark surface)
    ══════════════════════════════════════════════════════════ */
 .s-cta {
@@ -851,9 +947,20 @@ nav {
   background: var(--surface-dark-text); color: var(--surface-dark);
   font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   padding: 16px 40px; text-decoration: none; cursor: none;
-  transition: background .2s, color .2s;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
 }
-.cta-btn:hover { background: var(--gold); color: white; }
+.cta-btn:hover { 
+  background: var(--gold); 
+  color: white; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
+}
+.cta-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(139, 105, 20, 0.2);
+  transition: all 0.05s ease;
+}
 .cta-meta {
   margin-top: 20px; font-size: 9px; letter-spacing: .16em;
   text-transform: uppercase; color: var(--surface-dark-faint);

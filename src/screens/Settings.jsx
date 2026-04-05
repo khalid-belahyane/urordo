@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Key, Bot, CheckCircle2, XCircle, ShieldAlert, Trash2, Sun, Moon, Monitor, FolderOpen, MapPin } from 'lucide-react';
+import { Key, Bot, CheckCircle2, XCircle, ShieldAlert, Trash2, Sun, Moon, Monitor, FolderOpen, MapPin, Heart } from 'lucide-react';
 import { open } from '@tauri-apps/plugin-dialog';
+import { open as openUrl } from '@tauri-apps/plugin-shell';
 import { tauriApi } from '../lib/tauri';
 import { useSettings } from '../lib/SettingsContext';
 import { Toggle } from '../components/Toggle';
@@ -479,7 +480,31 @@ export function Settings() {
           </AnimatePresence>
         </section>
 
-        {/* ── 6. Danger Zone ────────────────────────────────────────────────── */}
+        {/* ── 6. Support urordo ─────────────────────────────────────────────── */}
+        <section className="p-6 bg-paper border border-paper-200 rounded-2xl shadow-warm-sm">
+          <div className="flex items-start justify-between">
+            <div className="pr-10">
+              <h3 className="font-semibold text-ink text-sm">Support urordo</h3>
+              <p className="text-xs text-ink-muted mt-1 leading-relaxed">
+                urordo helps keep your files calmer, cleaner, and easier to trust. If it saved you time, you can help keep it independent.
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-paper-200/50 border border-paper-200 flex items-center justify-center shrink-0">
+              <Heart size={20} className="text-accent" />
+            </div>
+          </div>
+          <div className="mt-5">
+            <motion.button
+              whileTap={{ scale: 0.96 }}
+              onClick={() => openUrl('https://ko-fi.com/urordo')}
+              className="px-6 py-2.5 bg-ink text-paper font-medium rounded-xl hover:bg-ink-2 transition-colors shadow-sm text-sm"
+            >
+              Support urordo
+            </motion.button>
+          </div>
+        </section>
+
+        {/* ── 7. Danger Zone ────────────────────────────────────────────────── */}
         <section className="p-6 bg-red-50/50 border border-red-200/60 rounded-2xl shadow-warm-sm">
           <div className="flex items-center justify-between mb-4">
             <div>

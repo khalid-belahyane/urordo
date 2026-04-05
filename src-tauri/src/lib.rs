@@ -133,6 +133,7 @@ pub fn run() {
     let _ = env_logger::try_init();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
             // A second instance tried to launch — bring the existing window forward
             if let Some(win) = app.get_webview_window("main") {

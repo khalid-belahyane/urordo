@@ -1,28 +1,22 @@
-# urordo Windows Build — GitHub Actions
+# urordo Automated Build & Release — GitHub Actions
 #
-# Triggered manually (workflow_dispatch) — not on every push.
-# To trigger: GitHub → Actions → "Build urordo" → Run workflow
-#
-# When ready for automated releases, change "on" to:
-#   on:
-#     push:
-#       tags:
-#         - 'v*'
+# Triggers on pushing a tag (e.g. `git tag v0.1.0` && `git push origin v0.1.0`)
+# It will draft a new GitHub Release with all the binaries and the update files safely.
 
-name: Build urordo
+name: Build and Release urordo
 
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to build (must match tauri.conf.json, e.g. 0.1.0)'
-        required: false
-        default: ''
 
 jobs:
-  build-windows:
-    name: Build Windows installers
+  build-release-windows:
+    name: Build & Release Windows Installer
     runs-on: windows-latest
+    permissions:
+      contents: write # Required for tauri-action to create GitHub releases
 
     steps:
       - name: Checkout repository
@@ -48,51 +42,16 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build Tauri application
-        run: npx tauri build
+      # Execute tauri-action to build and upload release assets
+      - name: Build and Release Tauri application
+        uses: tauri-apps/tauri-action@v2
         env:
-          # Required for Tauri Auto-updater:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          #
-          # Uncomment for code signing certificate (EV cert thumbprint):
           # TAURI_WINDOWS_CERTIFICATE_THUMBPRINT: ${{ secrets.TAURI_WINDOWS_CERTIFICATE_THUMBPRINT }}
-
-      - name: Read version from tauri.conf.json
-        id: version
-        shell: pwsh
-        run: |
-          $config = Get-Content "src-tauri/tauri.conf.json" | ConvertFrom-Json
-          $v = if ("${{ inputs.version }}") { "${{ inputs.version }}" } else { $config.version }
-          echo "version=$v" >> $env:GITHUB_OUTPUT
-
-      - name: Verify MSI artifact exists and is under 10MB
-        shell: pwsh
-        run: |
-          $msi = "src-tauri/target/release/bundle/msi/urordo_${{ steps.version.outputs.version }}_x64_en-US.msi"
-          if (-not (Test-Path $msi)) { Write-Error "MSI not found: $msi"; exit 1 }
-          $size = [math]::Round((Get-Item $msi).Length / 1MB, 2)
-          Write-Host "MSI size: $size MB"
-          if ($size -gt 10) { Write-Warning "MSI exceeds 10MB target ($size MB)" }
-
-      - name: Verify NSIS artifact exists and is under 8MB
-        shell: pwsh
-        run: |
-          $exe = "src-tauri/target/release/bundle/nsis/urordo_${{ steps.version.outputs.version }}_x64-setup.exe"
-          if (-not (Test-Path $exe)) { Write-Error "NSIS EXE not found: $exe"; exit 1 }
-          $size = [math]::Round((Get-Item $exe).Length / 1MB, 2)
-          Write-Host "NSIS size: $size MB"
-          if ($size -gt 8) { Write-Warning "NSIS EXE exceeds 8MB target ($size MB)" }
-
-      - name: Upload MSI installer
-        uses: actions/upload-artifact@v4
         with:
-          name: urordo-msi-${{ steps.version.outputs.version }}
-          path: src-tauri/target/release/bundle/msi/*.msi
-          retention-days: 30
-
-      - name: Upload NSIS installer
-        uses: actions/upload-artifact@v4
-        with:
-          name: urordo-nsis-${{ steps.version.outputs.version }}
-          path: src-tauri/target/release/bundle/nsis/*-setup.exe
-          retention-days: 30
+          tagName: app-v__VERSION__ # Automatically uses the version from tauri.conf.json
+          releaseName: 'urordo v__VERSION__'
+          releaseBody: 'See the assets below to download the latest version of urordo.'
+          releaseDraft: true
+          prerelease: false

@@ -117,7 +117,7 @@ landing/
 
 In `src/pages/LandingPage.tsx`, line 4:
 ```ts
-const VERSION = '0.0.1';  // ← change this
+const VERSION = '0.0.2';  // ← change this
 const DL_URL  = 'https://github.com/urordo/urordo/releases/latest';
 ```
 `VERSION` appears in: nav stamp, CTA button text, footer version.

@@ -53,5 +53,5 @@ jobs:
           tagName: app-v__VERSION__ # Automatically uses the version from tauri.conf.json
           releaseName: 'urordo v__VERSION__'
           releaseBody: 'See the assets below to download the latest version of urordo.'
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false

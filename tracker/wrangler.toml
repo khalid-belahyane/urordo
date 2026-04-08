@@ -1,0 +1,9 @@
+name = "urordo-tracker"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "urordo-analytics"
+database_id = "7aa5dab3-d98a-4591-9d5e-ff9812fa4f7e"

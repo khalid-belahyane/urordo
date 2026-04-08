@@ -12,6 +12,7 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "urordo",
         "width": 1100,
         "height": 720,
@@ -22,8 +23,8 @@
         "decorations": true,
         "transparent": false,
         "center": true,
-        "visible": false,
-        "skipTaskbar": true,
+        "visible": true,
+        "skipTaskbar": false,
         "focus": true,
         "url": "/"
       }

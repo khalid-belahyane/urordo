@@ -60,7 +60,7 @@ export function Sidebar({ current, onNavigate }) {
 
       {/* Version footer */}
       <div className="px-3 pt-3 border-t border-paper-200">
-        <p className="text-2xs text-ink-muted/50 font-mono tracking-wider">v0.0.2</p>
+        <p className="text-2xs text-ink-muted/50 font-mono tracking-wider">v{import.meta.env.PACKAGE_VERSION}</p>
       </div>
     </div>
   );

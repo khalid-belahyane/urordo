@@ -267,7 +267,7 @@ export function Landing({ onComplete }) {
             marginTop: 16,
           }}
         >
-          urordo v0.0.2 · Windows · Local-first
+          urordo v{import.meta.env.PACKAGE_VERSION} · Windows · Local-first
         </motion.p>
       </motion.div>
 

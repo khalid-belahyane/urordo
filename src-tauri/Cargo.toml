@@ -1,6 +1,6 @@
 [package]
 name = "urordo"
-version = "0.0.1"
+version = "0.0.2"
 description = "Intelligent local-first file organiser"
 authors = ["urordo"]
 edition = "2021"

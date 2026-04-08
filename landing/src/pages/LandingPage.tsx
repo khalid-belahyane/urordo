@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const VERSION    = '0.0.1';
-const DL_URL     = 'https://github.com/khalid-belahyane/urordo/releases/download/v0.0.1/urordo_0.0.1_x64-setup.exe';
+const VERSION    = '0.0.2';
+const DL_URL     = 'https://github.com/khalid-belahyane/urordo/releases/download/app-v0.0.2/urordo_0.0.2_x64-setup.exe';
 const TRACKER    = 'https://urordo-tracker.belahyanekhalid.workers.dev/track';
 const track = (variant: string) => {
   try {
